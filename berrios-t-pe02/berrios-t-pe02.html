@@ -50,14 +50,10 @@
         let fName = document.querySelector("#input-firstname").value.trim();
         let lName = document.querySelector("#input-lastname").value.trim();
 
-        if (!fName && !lName){
-          fName = "Peter";
-          lName = "Parker"
-        }
-        else if (!fName){
+        if (!fName){
           fName = "Peter";
         }
-        else if (!lName){
+        if (!lName){
           lName = "Parker";
         }
 
