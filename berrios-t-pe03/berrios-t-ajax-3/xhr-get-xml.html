@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+        <title>XHR - Load Text</title>
+
+        <style>
+            body{
+                font-family: sans-serif;
+            }
+        </style>
+
+    </head>
+
+    <body>
+        <h2>XHR - Load Text File</h2>
+        <p>The <code>pet-names.txt</code> file contains popular dog and cat pet names, separated by commas.</p>
+        <p>Note that because XHR is loading a local file, this and the other examples will have to be run off a web server rather than from your computer's hard drive (e.g. banjo.rit.edu or VSCode's liveserver etc)</p>
+        
+        <hr>
+        <button id="my-button">Load Data</button>
+        <p id="output">Click button to load</p>
+        
+
+        <script>
+            document.querySelector("#my-button").onclick = loadTextXHR;
+
+            function loadTextXHR(){
+                const url = "data/pet-names.xml";
+                const xhr = new XMLHttpRequest();
+
+                xhr.onload = (e) => {
+                    console.log(`In onload - HTTP Status Code = ${e.target.status}`);
+
+                    const xml = e.target.responseXML;
+
+                    if (!xml){
+                        document.querySelector("#output").textContent = "XML parsing failed!";
+                        return;
+                    }
+
+                    const nameLists = xml.querySelectorAll("namelist");
+                    const dataSets = [];
+                    
+                    for (let i = 0; i < nameLists.length; i++){
+                        dataSets[i] = `<ol>${nameLists[i].textContent.split(",").map(name => `<li>${name}</li>`).join("")}</ol>`;
+                    }
+
+                    let outputHtml = "";
+
+                    for (let i = 0; i < nameLists.length; i++){
+                        outputHtml += `<h3>${nameLists[i].getAttribute("cid")}</h3>${dataSets[i]}`;
+                    }
+
+                    document.querySelector("#output").innerHTML = outputHtml;
+                }
+
+                xhr.onerror = e => {
+                    console.log(`In onerror - HTTP Status Code = ${e.target.status}`);
+                }
+
+                xhr.open("GET", url);
+                xhr.send();
+            }
+        </script>
+    </body>
+</html>
