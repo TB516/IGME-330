@@ -1,24 +1,54 @@
-"use strict";
+import {getRandomNum} from "./utils.js"
 
-const getRandomNum = (min = 0, max) => {
-    return Math.random() * (max - min) + min;
-}
+const output = document.querySelector("#output");
+
+let words1;
+let words2;
+let words3;
 
 const babble = () => {
-    output.innerHTML = `${words1[Math.round(getRandomNum(0, words1.length - 1))]} ${words2[Math.round(getRandomNum(0, words2.length - 1))]} ${words3[Math.round(getRandomNum(0, words3.length - 1))]}`;
+    return `${words1[Math.round(getRandomNum(0, words1.length - 1))]} ${words2[Math.round(getRandomNum(0, words2.length - 1))]} ${words3[Math.round(getRandomNum(0, words3.length - 1))]}`;
 }
 
-const words1 = ["Acute", "Aft", "Anti-matter", "Bipolar", "Cargo", "Command", "Communication", "Computer", "Deuterium", "Dorsal", "Emergency", "Engineering", "Environmental", "Flight", "Fore", "Guidance", "Heat", "Impulse", "Increased", "Inertial", "Infinite", "Ionizing", "Isolinear", "Lateral", "Linear", "Matter", "Medical", "Navigational", "Optical", "Optimal", "Optional", "Personal", "Personnel", "Phased", "Reduced", "Science", "Ship's", "Shuttlecraft", "Structural", "Subspace", "Transporter", "Ventral"];
+const generateTechno = (num) => {
+    let techno = "";
 
-const words2 = ["Propulsion", "Dissipation", "Sensor", "Improbability", "Buffer", "Graviton", "Replicator", "Matter", "Anti-matter", "Organic", "Power", "Silicon", "Holographic", "Transient", "Integrity", "Plasma", "Fusion", "Control", "Access", "Auto", "Destruct", "Isolinear", "Transwarp", "Energy", "Medical", "Environmental", "Coil", "Impulse", "Warp", "Phaser", "Operating", "Photon", "Deflector", "Integrity", "Control", "Bridge", "Dampening", "Display", "Beam", "Quantum", "Baseline", "Input"];
+    for (let i = 0; i < num; i++){
+        techno += `<p class = "babble">${babble()}</p>`;
+    }
 
-const words3 = ["Chamber", "Interface", "Coil", "Polymer", "Biosphere", "Platform", "Thruster", "Deflector", "Replicator", "Tricorder", "Operation", "Array", "Matrix", "Grid", "Sensor", "Mode", "Panel", "Storage", "Conduit", "Pod", "Hatch", "Regulator", "Display", "Inverter", "Spectrum", "Generator", "Cloud", "Field", "Terminal", "Module", "Procedure", "System", "Diagnostic", "Device", "Beam", "Probe", "Bank", "Tie-In", "Facility", "Bay", "Indicator", "Cell"];
-
-window.onload = () => {
-    const button = document.querySelector("#myButton");
-    const output = document.querySelector("#output");
-
-    button.addEventListener("click", babble);
-
-    babble();
+    output.innerHTML = techno;
 }
+
+const loadBabble = () => {
+    const xhr = new XMLHttpRequest();
+
+    xhr.onload = babelLoaded;
+    xhr.onerror = (e) => {output.innerHTML = `<h2>${e.target.status}</h2><p>An error occurred while loading the Babble Data</p>`};
+
+    xhr.open("GET", "./data/babble-data.json");
+    xhr.send();
+}
+
+const babelLoaded = (e) => {
+    let json
+
+    try{
+        json = JSON.parse(e.target.responseText);
+    }
+    catch{
+        output.innerHTML = `<h2>An error occurred while parsing the babble data!</h2>`;
+        return
+    }
+    
+    words1 = json["words1"];
+    words2 = json["words2"];
+    words3 = json["words3"];
+
+    document.querySelector("#more-technobabble").addEventListener("click", () => {generateTechno(1)});
+    document.querySelector("#five-tecnnobabble").addEventListener("click", () => {generateTechno(5)});
+
+    generateTechno(1);
+}
+
+loadBabble();

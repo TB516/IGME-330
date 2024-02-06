@@ -5,11 +5,19 @@ h1 {
 }
 
 .container {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        flex-direction: column;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
 }
+
+#five-tecnnobabble {display:none}
+
+#output{
+    margin:10px;
+}
+
+.babble {text-align: center;}
 
 @media only screen and (min-width: 320px) {
     .container {
@@ -44,7 +52,7 @@ h1 {
         background-color: #23d160;
     }
 
-    #myButton {
+    button {
         width: 300px;
         height: 75px;
         font-size: 1.5rem;
@@ -59,7 +67,7 @@ h1 {
 @media only screen and (min-width: 1024px) {
     body {
         font-size: 1rem;
-        text-align: left;
+        text-align: center;
     }
 
     h1 {
@@ -72,26 +80,32 @@ h1 {
     }
 
     #output {
-        text-align: left;
+        text-align: center;
         font-size: 2rem;
     }
 }
 
 @media only screen and (min-width: 1408px) {
-    body {
-        text-align: center;
-    }
-    
     h1 {
         background-color: purple;
         font-size: 3rem;
     }
-
-    .container {
-        display: flex;
+    
+    .container{
+        display: block;
     }
 
+    button {
+        width: 400px;
+        height: auto;
+        font-size: 2.5rem;
+        padding: 20px;
+        margin: 5px auto;
+    }
+
+    #five-tecnnobabble{display:block}
+
     #output {
-        font-size: 3rem;
+        font-size: 4rem;
     }
 }
