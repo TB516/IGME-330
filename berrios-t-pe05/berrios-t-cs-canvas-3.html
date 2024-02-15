@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <title>Screensaver</title>
+
+    <style>
+        canvas {
+            border: 1px solid gray;
+        }
+    </style>
+
+    <script>
+        "use strict";
+
+        window.onload = init;
+
+        function init() {
+            let canvas = document.querySelector("canvas");
+            let ctx = canvas.getContext("2d");
+            const rectMaxSize = 100;
+            
+            ctx.fillStyle = "red";
+            ctx.fillRect(20, 20, 600, 440);
+
+            const drawRectangle = (x,y,width,height,fillStyle="black",lineWidth=0,strokeStyle="black") => {
+                ctx.save();
+
+                ctx.fillStyle = fillStyle;
+
+                ctx.beginPath();
+
+                ctx.rect(x, y, width, height);
+                ctx.fill();
+
+                if (lineWidth > 0) {
+                    ctx.lineWidth = lineWidth;
+                    ctx.strokeStyle = strokeStyle;
+                    ctx.stroke();
+                }
+
+                ctx.closePath();
+                
+                ctx.restore();
+            }
+
+            const drawRandomRect = () => {
+                drawRectangle(getRandomInt(0, canvas.width), getRandomInt(0, canvas.height), getRandomInt(10, rectMaxSize), getRandomInt(10, rectMaxSize), getRandomColor(), getRandomInt(2, 12), getRandomColor());
+            }
+
+            const update = () => {
+                drawRandomRect();
+                window.requestAnimationFrame(update);
+            }
+        
+            //Forgot to make a copy of 3 so went back and undid stuff. Thats why draw methods are the ones from 4.
+            update();
+        }
+
+        // handy helper functions!
+        const getRandomColor = () => {
+            function getByte(){ return 55 + Math.round(Math.random() * 200); }
+            return "rgba(" + getByte() + "," + getByte() + "," + getByte() + ",.8)";
+        }
+
+        const getRandomInt = (min, max) => {
+            return Math.floor(Math.random() * (max - min + 1)) + min;
+        }
+    </script>
+</head>
+
+<body>
+    <canvas width="640" height="480">
+        Get a real browser!
+    </canvas>
+</body>
+
+</html>
