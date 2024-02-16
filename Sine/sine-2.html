@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+	<title>Sine Start</title>
+	<style>canvas{ border: 1px solid black; }</style>
+	<script>
+        "use strict";
+        const canvasWidth = 400, canvasHeight = 300, fps = 60;
+        let ctx;
+        let x = 0, y = 0, angle = 0;
+
+        function init(){
+            ctx = canvas.getContext("2d");
+            canvas.width = canvasWidth;
+            canvas.height = canvasHeight;
+            ctx.fillRect(0,0,canvasWidth,canvasHeight);
+            update();
+        }
+
+        function update(){
+            setTimeout(update, 1000 / fps);
+
+            ctx.save();
+
+            ctx.fillStyle = "black";
+            ctx.globalAlpha = 1/fps;
+            ctx.fillRect(0, 0, canvasWidth, canvasHeight);
+
+            ctx.restore();
+
+            x += 10;
+            if (x >= canvasWidth) x = 0;
+
+            y = Math.sin(angle) * 100 + canvasHeight/2;
+            drawCircle(ctx, x, y, 4, "blue");
+
+            y = Math.cos(angle) * 100 + canvasHeight/2;
+            drawCircle(ctx, x, y, 4, "orange");
+
+            y = canvasHeight/2 -Math.sqrt(x%50) * 5;
+            drawCircle(ctx, x, y, 4, "green");
+
+            angle += .3;
+        }
+
+        // helpers
+        function dtr(degrees){
+            return degrees * (Math.PI/180);
+        }
+
+        function drawCircle(ctx,x,y,radius,color){
+            ctx.save();
+            ctx.fillStyle = color;
+            ctx.beginPath();
+            ctx.arc(x,y,radius,0,Math.PI * 2);
+            ctx.closePath();
+            ctx.fill();
+            ctx.restore();
+        }
+
+        window.onload = init;
+	</script>
+</head>
+<body>
+<canvas id="canvas"></canvas>
+</body>
+</html>
