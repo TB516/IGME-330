@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+	<title>Phyllotaxis</title>
+
+	<style>
+        body {display: flex; flex-direction: row;}
+
+        canvas{ border: 1px solid black; }
+
+        div#controls { display: flex; flex-direction: column; margin: 20px;}
+        div#controls h1 {font-size: 1.5rem;}
+        div#controls div#sliders {display: flex; flex-direction: column; margin: 10px 0;}
+    </style>
+
+	<script>
+        "use strict";
+
+        //#region System variables
+        const canvasWidth = 640, canvasHeight = 480;
+        let ctx;
+
+        const fps = 60;
+        const hz = 1000/fps;
+        //#endregion
+
+        //#region Math variables
+        const defaultDivergence = 137.5;
+        const defaultSpacing = 4;
+        const defaultDotRad = 2;
+
+        let generation = 0;
+        let divergence = defaultDivergence;
+        let dotSpacing = defaultSpacing;
+        let dotRad = defaultDotRad;
+        //#endregion
+
+        //#region User input values
+        const defaultIterateAmount = .005;
+
+        let iterateDivergence = false;
+        let iterateSpacing = false;
+        let iterateRadius = false;
+
+        let iterateDivergenceAmount = defaultIterateAmount
+        let iterateSpacingAmount = defaultIterateAmount
+        let iterateRadiusAmount = defaultIterateAmount;
+        //#endregion
+
+        const init = () => {
+            ctx = canvas.getContext("2d");
+            canvas.width = canvasWidth;
+            canvas.height = canvasHeight;
+            ctx.fillRect(0,0,canvasWidth,canvasHeight);
+
+            setupUI();
+
+            update();
+        }
+
+        const update = () => {
+            setTimeout(update, hz);
+
+            let angle = generation * dtr(divergence);
+            let radius = dotSpacing * Math.sqrt(generation);
+
+            let x = radius * Math.cos(angle) + canvasWidth/2;
+            let y = radius * Math.sin(angle) + canvasHeight/2;
+
+            let color = `hsl(${generation/5 % 361},100%,50%)`;
+            drawCircle(ctx, x, y, dotRad, color);
+
+            generation++;
+
+            if (iterateDivergence) { divergence += iterateDivergenceAmount; }
+            if (iterateSpacing) { dotSpacing += iterateSpacingAmount; }
+            if (iterateRadius) { dotRad += iterateRadiusAmount; }
+        }
+
+        const dtr = (degrees) => {
+            return degrees * (Math.PI/180);
+        }
+
+        const drawCircle = (ctx,x,y,radius,color) => {
+            ctx.save();
+            ctx.fillStyle = color;
+            ctx.beginPath();
+            ctx.arc(x,y,radius,0,Math.PI * 2);
+            ctx.closePath();
+            ctx.fill();
+            ctx.restore();
+        }
+
+        const setupUI = () => {
+            document.querySelector("#check-divergence").onclick = () => { iterateDivergence = !iterateDivergence; };
+            document.querySelector("#check-spacing").onclick = () => { iterateSpacing = !iterateSpacing; };
+            document.querySelector("#check-radius").onclick = () => { iterateRadius = !iterateRadius; };
+
+            document.querySelector("#range-divergence").onchange = (e) => { iterateDivergenceAmount = parseFloat(e.target.value); };
+            document.querySelector("#range-spacing").onchange = (e) => { iterateSpacingAmount = parseFloat(e.target.value); };
+            document.querySelector("#range-radius").onchange = (e) => { iterateRadiusAmount = parseFloat(e.target.value); };
+
+            document.querySelector("#btn-reset").onclick = reset;
+        }
+
+        const reset = () => {
+            ctx.fillRect(0,0,canvasWidth,canvasHeight);
+
+            document.querySelector("#check-divergence").checked = false;
+            document.querySelector("#check-spacing").checked = false;
+            document.querySelector("#check-radius").checked = false;
+
+            document.querySelector("#range-divergence").value = defaultIterateAmount;
+            document.querySelector("#range-spacing").value = defaultIterateAmount;
+            document.querySelector("#range-radius").value = defaultIterateAmount;
+
+            generation = 0;
+            divergence = defaultDivergence;
+            dotSpacing = defaultSpacing;
+            dotRad = defaultDotRad;
+
+            iterateDivergence = false;
+            iterateSpacing = false;
+            iterateRadius = false;
+
+            iterateDivergenceAmount = defaultIterateAmount;
+            iterateSpacingAmount = defaultIterateAmount;
+            iterateRadiusAmount = defaultIterateAmount;
+        }
+
+        window.onload = init;
+	</script>
+</head>
+
+<body>
+    <canvas id="canvas"></canvas>
+
+    <div id="controls">
+        <h1>Controls</h1>
+
+        <div class="checks">
+            <input type="checkbox" id="check-divergence">
+            <label for="check-divergence">Iterate Divergence</label>
+
+            <input type="checkbox" id="check-spacing">
+            <label for="check-spacing">Iterate Dot Spacing</label>
+
+            <input type="checkbox" id="check-radius">
+            <label for="check-radius">Iterate Dot Radius</label>
+        </div>
+
+        <div id="sliders">
+            <div id="divergence">
+                <label for="range-divergence">Divergence Change Amount</label>
+                <input type="range" id="range-divergence" min="0" value=".005" max=".01" step=".001">
+            </div>
+            
+
+            <div id="spacing">
+                <label for="range-spacing">Spacing Change Amount</label>
+                <input type="range" id="range-spacing" min="0" value=".005" max=".01" step=".001">
+            </div>
+            
+            <div id="radius">
+                <label for="range-radius">Radius Change Amount</label>
+                <input type="range" id="range-radius" min="0" value=".005" max=".01" step=".001">
+            </div>
+        </div>
+
+        <button id="btn-reset">Reset Canvas</button>
+
+        <div>
+            <h2>About this page</h2>
+            <p>
+                The extra addition is the extra controls. They allow the user to control if they are going to iterate the values provided to create unique shapes.
+                The slider allows the user to adjust how much the values are going to be iterated by from 0 to .01 with a step of 1.
+                The canvas size has been increased to 640x480, and framerate has been increased too.
+            </p>
+        </div>
+    </div>
+    
+</body>
+</html>
