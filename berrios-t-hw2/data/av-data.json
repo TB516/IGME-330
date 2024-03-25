@@ -1,0 +1,18 @@
+{
+    "title" : "AV",
+    "fileNames" : [
+        {
+            "path" : "./media/star-dream.mp3",
+            "name" : "Star Dream"
+        },
+        {
+            "path" : "./media/C-R-O-W-N-E-D.mp3",
+            "name" : "CROWNED"
+        },
+        {
+            "path" : "./media/Dirty-and-Beauty.mp3",
+            "name" : "Dirty and Beauty"
+        }
+    ],
+    "gradientColor" : "#5e23b8"
+}

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <title>Audio Visualizer</title>
+        <link href="./styles/default-styles.css" type="text/css" rel="stylesheet" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+        <script src="./src/loader.js" type="module"></script>
+    </head>
+
+    <body>
+        <main data-blur="false">
+            <canvas width="800" height="400"></canvas>
+
+            <div id="control-bar">
+                <label id="track">Track: 
+                    <select id="select-track">
+                    </select>
+                </label>
+                
+                <button id="btn-play" data-playing="no"></button>
+
+                <span id="sound">
+                    Volume: <input type="range" id="slider-volume" min="0" max="2" value="1" step="0.01"><span id="volume-label">???</span>
+                </span>
+
+                <button id="btn-sound-settings"><i class="fa-solid fa-gear"></i> Settings</button>
+            </div>
+        </main>
+        
+        <div id="sound-settings" data-open="false">
+            <label id="label-settings" for="sound-settings">Settings</label>
+
+            <span class="cb"><input type="checkbox" id="cb-bass"><label for="cb-bass"> Bass Boost</label></span>
+            <span class="cb"><input type="checkbox" id="cb-treble"><label for="cb-treble"> Treble Boost</label></span>
+            
+            <span class="cb"><input type="checkbox" id="cb-use-frequency"><label for="cb-use-frequency"> Use Frequency</label></span>
+            <span class="cb"><input type="checkbox" id="cb-spin-kirby"><label for="cb-spin-kirby"> Spin Kirby</label></span>
+            <input type="range" id="slider-spin-speed" min="0" max="1" value=".1" step=".1"><span id="spin-speed-label">1</span>
+            <span class="cb"><input type="checkbox" id="cb-noise"><label for="cb-noise"> Noise</label></span>
+
+            <button id="btn-apply-settings">Close</button>
+        </div>
+    </body>
+</html>

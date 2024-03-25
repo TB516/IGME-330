@@ -1,0 +1,11 @@
+1. Settings tab in the bottom left to access the filters and the visual Settings
+    Visual settings are to spin kirby, the spin speed, whether frequency is being used, and the white noise which has been modified for the screen size.
+    Frequency is what i designed it for so take a look at it.
+2. The 2 audio nodes I added were the 2 biquad filters representing bass and treble.
+3. The main sprite is just a circle sprite, but I also have a child of it, being the kirby sprite, which has an additional circle sprite.
+    The kirby sprite's mouth (a circle sprite) changes its radius based on the average audio data.
+4. The data i put was the title, audio files with their names, and the background color
+5. The background is the same as my base audio visualizer, but other than that I changed a decent bit by adding the kirby acting as both a spinning record
+    and with his mouth moving with the audio. Id give it a 10 because its fairly different from the base PE, and has a unique asthetic to go along with the music.
+    I wanted to have a lot more with incorperating a swirling effect around Kirby, and making the mouth movements look more polished, along with having mini kirbys moving 
+    across the screen. But I realized I haddnt given myself enough time with midterms this week, so I had to scale it down a lot (and its still 1 day late anyway).
