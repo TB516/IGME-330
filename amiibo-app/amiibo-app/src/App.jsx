@@ -1,20 +1,20 @@
-import { useState } from "react";
 import './App.css'
+import { useState, useEffect, useMemo } from "react";
+import { loadXHR } from './ajax';
+import { readFromLocalStorage, writeToLocalStorage } from "./storage"
+import Footer from './Footer';
 
 // app "globals" and utils
 const baseurl = "https://www.amiiboapi.com/api/amiibo/?name=";
 
-const loadXHR = (url, callback) => {
-  const xhr = new XMLHttpRequest();
-  xhr.onload = () => callback(xhr);
-
-  xhr.open("GET", url);
-  xhr.send();
-};
-
 const App = () => {
-  const [term, setTerm] = useState("toad");
+  const savedTerm = useMemo(() => readFromLocalStorage("term") || "", []);  
+  const [term, setTerm] = useState(savedTerm);
   const [results, setResults] = useState([]);
+
+  useEffect(() => {
+    writeToLocalStorage("term", term);
+  }, [term]);
 
   const searchAmiibo = (name, callback) => {
     loadXHR(`${baseurl}${name}`, callback);
@@ -68,9 +68,7 @@ const App = () => {
 
     <hr />
 
-    <footer>
-      <p>&copy; 2023 Ace Coder</p>
-    </footer>
+    <Footer name={"Thomas Berrios"} year={new Date().getFullYear()} />
   </>;
 };
 
