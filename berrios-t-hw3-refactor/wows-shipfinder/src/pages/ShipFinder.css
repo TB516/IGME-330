@@ -1,0 +1,11 @@
+.sidebar {
+    position: sticky;
+    max-height: 100vh;
+    top: 100px;
+    bottom: 0;
+}
+
+img {
+    margin: auto;
+    width: 40%;
+}

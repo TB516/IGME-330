@@ -1,0 +1,3 @@
+235 Project 2 turned into a TSX React App
+Changes for 2: Converted to react components and refactored to use Bulma throughout the whole website
+Changes for 3: Converted code to use TS and fetch api along with multiple interfaces
