@@ -3,6 +3,9 @@ import { useState, useEffect, useMemo } from "react";
 import { loadXHR } from './ajax';
 import { readFromLocalStorage, writeToLocalStorage } from "./storage"
 import Footer from './Footer';
+import Header from './Header';
+import AmiiboList from "./AmiiboList";
+import AmiiboSearchUi from "./AmiiboSearchUI";
 
 // app "globals" and utils
 const baseurl = "https://www.amiiboapi.com/api/amiibo/?name=";
@@ -38,31 +41,15 @@ const App = () => {
   };
   
   return <>
-    <header>
-      <h1>Amiibo Finder</h1>
-    </header>
+    <Header title={"Amiibo Finder"}></Header>
 
     <hr />
 
     <main>
-      <button onClick = {() => {searchAmiibo(term, parseAmiiboResult)}}>Search</button>
-
-      <label>
-        Name: 
-        <input value={term} onChange={e => setTerm(e.target.value.trim())}/>
-      </label>
+        <AmiiboSearchUi term={term} setTermFunc={setTerm} searchAmiiboFunc={searchAmiibo} parseAmiiboResultFunc={parseAmiiboResult}></AmiiboSearchUi>
 
       <section id="results">
-        {results.map(amiibo => (
-          <span key={amiibo.head + amiibo.tail} style={{color:"green"}}>
-            <h4>{amiibo.name}</h4>
-            <img 
-              width="100" 
-              alt={amiibo.character}
-              src={amiibo.image}
-            />
-          </span>
-        ))}
+        <AmiiboList results={results}></AmiiboList>
       </section>
     </main>
 
