@@ -5,8 +5,6 @@ import Navbar from './components/Navbar.tsx';
 import About from './pages/About.tsx';
 import ShipFinder from './pages/ShipFinder.tsx';
 
-import 'bulma/css/bulma.min.css';
-
 const router = createHashRouter([{
   path: "/",
   element: <Navbar />,
